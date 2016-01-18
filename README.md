@@ -1,4 +1,4 @@
-# qa-minion
+# QA Minion
 NodeJS tool using Express and Cheerio that runs through lists of test cases to automate webpage QA passes. Test passes are done through an API endpoint.
 
 ##To Install
