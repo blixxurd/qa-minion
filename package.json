@@ -1,0 +1,12 @@
+{
+  "name"         : "qa-minion",
+  "version"      : "0.0.1",
+  "description"  : "A tool to run QA test cases.",
+  "main"         : "selfQA.js",
+  "author"       : "Aaron Bartholomew",
+  "dependencies" : {
+    "express"    : "latest",
+    "request"    : "latest",
+    "cheerio"    : "latest"
+  }
+}
