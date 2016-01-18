@@ -12,6 +12,8 @@ NodeJS tool using Express and Cheerio that runs through lists of test cases to a
 
 ###To Do
 > Add Basic Web UI Interface
-> Test Case Looping
+
 > More Test Cases
+
 > Break Test Cases into seperate files
+
