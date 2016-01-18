@@ -17,12 +17,14 @@ var methods = {
 	}
 }
 
-var testConfig = {
-	general : {
-		googleAnalytics : {
-			name: "Google Analytics Code Exists",
-			test: function(str) {
-				return str.indexOf("['GoogleAnalyticsObject']") > -1 ? true : false;
+var testConfig = function(html) {
+	return {
+		general : {
+			googleAnalytics : {
+				name: "Google Analytics Code Exists",
+				test: function(str) {
+					return str.indexOf("['GoogleAnalyticsObject']") > -1 ? true : false;
+				}(html)
 			}
 		}
 	}
@@ -45,7 +47,7 @@ app.get('/', function(req, res){
 		if(!error){
 			var $ = cheerio.load(html);
 		}
-		res.json(testConfig.general.googleAnalytics.test(html));
+		res.json(testConfig(html));
 	});
 });
 
