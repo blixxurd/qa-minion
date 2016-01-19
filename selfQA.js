@@ -17,7 +17,7 @@ var methods = {
 	}
 }
 
-var testConfig = function(html) {
+var testConfig = function(html, $) {
 	return {
 		general : {
 			googleAnalytics : {
@@ -25,6 +25,17 @@ var testConfig = function(html) {
 				test: function(str) {
 					return str.indexOf("['GoogleAnalyticsObject']") > -1 ? true : false;
 				}(html)
+			}
+		},
+		seo : {
+			h1s_present : {
+				name: "H1 on Page",
+				test: function() {
+					return $("h1").length > 0;
+				}(),
+				count: function() {
+					return $("h1").length;
+				}() 
 			}
 		}
 	}
@@ -47,7 +58,7 @@ app.get('/', function(req, res){
 		if(!error){
 			var $ = cheerio.load(html);
 		}
-		res.json(testConfig(html));
+		res.json(testConfig(html, $));
 	});
 });
 
