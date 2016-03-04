@@ -9,11 +9,33 @@ var express = require('express'),
 		config	= {port: 8081},
 
 /* BASE HELPER METHODS */
-		methods = {
-	stripTags: function(str) {
-    	return String(str).replace(/<\/?[^>]+(>|$)/g, '');
-	}
-},
+		methods = (function(html, $) {
+			return {
+				stripTags: function(str) {
+						return String(str).replace(/<\/?[^>]+(>|$)/g, '');
+				},
+				findElem: function(element, attribute, output) {
+
+
+					//////// ADD TEST CASE FOR NO ATTRIBUTE, JUST COUNTS TOTAL ELEMENTS
+					//////// ADD ELEMENT DOM WALK OUTPUT SO DEVS CAN FIND THE EXCEPTIONS & FIX THEM
+
+
+					$(element).each(function() {
+						if ($(this).attr(attribute) != ('' || null)) {
+							switch (typeof output) {
+								case 'number':
+									output++;
+									break;
+								default: 
+									return true;
+							}
+						}
+					});
+					return (typeof output == 'boolean') ? false : output;
+				}
+			};
+})(),
 
 		testConfig = function(html, $) {
 	return {
@@ -34,6 +56,13 @@ var express = require('express'),
 				count: function() {
 					return $("h1").length;
 				}() 
+			}
+		},
+		accessibility : {
+			img_alts : {
+				name: "Image Alt Tags",
+				test: methods.findElem("img", "alt"),
+				count: methods.findElem("img", "alt", 0)
 			}
 		}
 	}
