@@ -1,23 +1,43 @@
 /* LOAD DEPENDENCIES */
-var express = require('express');
-var request = require('request');
-var cheerio	= require('cheerio');
-var path 	= require('path');
-var app 	= new express();
+var express = require('express'),
+		request = require('request'),
+		cheerio	= require('cheerio'),
+		path 	= require('path'),
+		app 	= new express(),
 
 /* CONFIGURATION SETUP */
-var config	= {
-	port: 8081
-};
+		config	= {port: 8081},
 
 /* BASE HELPER METHODS */
-var methods = {
-	stripTags: function(str) {
-    	return String(str).replace(/<\/?[^>]+(>|$)/g, '');
-	}
-}
+		methods = (function(html, $) {
+			return {
+				stripTags: function(str) {
+						return String(str).replace(/<\/?[^>]+(>|$)/g, '');
+				},
+				findElem: function(element, attribute, output) {
 
-var testConfig = function(html, $) {
+
+					//////// ADD TEST CASE FOR NO ATTRIBUTE, JUST COUNTS TOTAL ELEMENTS
+					//////// ADD ELEMENT DOM WALK OUTPUT SO DEVS CAN FIND THE EXCEPTIONS & FIX THEM
+
+
+					$(element).each(function() {
+						if ($(this).attr(attribute) != ('' || null)) {
+							switch (typeof output) {
+								case 'number':
+									output++;
+									break;
+								default: 
+									return true;
+							}
+						}
+					});
+					return (typeof output == 'boolean') ? false : output;
+				}
+			};
+})(),
+
+		testConfig = function(html, $) {
 	return {
 		general : {
 			googleAnalytics : {
@@ -37,32 +57,41 @@ var testConfig = function(html, $) {
 					return $("h1").length;
 				}() 
 			}
+		},
+		accessibility : {
+			img_alts : {
+				name: "Image Alt Tags",
+				test: methods.findElem("img", "alt"),
+				count: methods.findElem("img", "alt", 0)
+			}
 		}
 	}
-}
+};
 
 /* WEB FOLDER EXISTS TO ADD FRONTEND CODE FOR A UI */
-app.get('/web*', function(req, res) {
-	thingToGet = req["originalUrl"];
-    res.sendFile(path.join(__dirname + thingToGet));
-});
+app
+	.get('/web*', function(req, res) {
+		thingToGet = req["originalUrl"];
+			res.sendFile(path.join(__dirname + thingToGet));
+	})
 
 /* RETURN PASSES ON PAGENAME THROUGH A JSON API */
-app.get('/', function(req, res){
-	query = req.query.q ? req.query.q : "http://aaronbartholomew.com/";
-	output = {
-		results: [],
-		string: ""
-	};
-	request(query, function(error, response, html){
-		if(!error){
-			var $ = cheerio.load(html);
-		}
-		res.json(testConfig(html, $));
-	});
-});
+	.get('/', function(req, res){
+		query = req.query.q ? req.query.q : "http://aaronbartholomew.com/";
+		output = {
+			results: [],
+			string: ""
+		};
+		request(query, function(error, response, html){
+			if(!error){
+				var $ = cheerio.load(html);
+			}
+			res.json(testConfig(html, $));
+		});
+	})
+
 
 /* LISTEN ON PORT */
-app.listen(config.port);
+	.listen(config.port);
 console.log('Self QA Assistant Started on Port 8081');
 exports = module.exports = app;
