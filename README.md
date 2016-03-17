@@ -5,7 +5,7 @@ NodeJS tool using Express and Cheerio that runs through lists of test cases to a
 `npm install`
 
 ##To Run
-`node selfQA`
+`node app`
 
 ##Test Case Endpoints
 `http://localhost:8081/?q=http://yourdomain.com/pagetotest.html`
@@ -16,4 +16,3 @@ NodeJS tool using Express and Cheerio that runs through lists of test cases to a
 > More Test Cases
 
 > Break Test Cases into seperate files
-

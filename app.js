@@ -2,24 +2,22 @@
 var express = require('express'),
 		request = require('request'),
 		cheerio	= require('cheerio'),
-		path 	= require('path'),
-		app 	= new express(),
+		path 		= require('path'),
+		app 		= new express(),
 
-/* CONFIGURATION SETUP */
+		/* CONFIGURATION SETUP */
 		config	= {port: 8081},
 
-/* BASE HELPER METHODS */
-		methods = (function(html, $) {
+		/* BASE HELPER METHODS */
+		methods = (function($) {
 			return {
 				stripTags: function(str) {
 						return String(str).replace(/<\/?[^>]+(>|$)/g, '');
 				},
 				findElem: function(element, attribute, output) {
 
-
 					//////// ADD TEST CASE FOR NO ATTRIBUTE, JUST COUNTS TOTAL ELEMENTS
 					//////// ADD ELEMENT DOM WALK OUTPUT SO DEVS CAN FIND THE EXCEPTIONS & FIX THEM
-
 
 					$(element).each(function() {
 						if ($(this).attr(attribute) != ('' || null)) {
@@ -27,7 +25,7 @@ var express = require('express'),
 								case 'number':
 									output++;
 									break;
-								default: 
+								default:
 									return true;
 							}
 						}
@@ -35,47 +33,48 @@ var express = require('express'),
 					return (typeof output == 'boolean') ? false : output;
 				}
 			};
-})(),
+		}),
 
 		testConfig = function(html, $) {
-	return {
-		general : {
-			googleAnalytics : {
-				name: "Google Analytics Code Exists",
-				test: function(str) {
-					return str.indexOf("['GoogleAnalyticsObject']") > -1 ? true : false;
-				}(html)
+			return {
+				general : {
+					googleAnalytics : {
+						name: "Google Analytics Code Exists",
+						test: function(str) {
+							return str.indexOf("['GoogleAnalyticsObject']") > -1 ? true : false;
+						}(html)
+					}
+				},
+				seo : {
+					h1s_present : {
+						name: "H1 on Page",
+						test: function() {
+							return $("h1").length > 0;
+						}(),
+						count: function() {
+							return $("h1").length;
+						}()
+					}
+				},
+				accessibility : {
+					img_alts : {
+						name: "Image Alt Tags",
+						test: methods($).findElem("img", "alt"),
+						count: methods($).findElem("img", "alt", 0)
+					}
+				}
 			}
-		},
-		seo : {
-			h1s_present : {
-				name: "H1 on Page",
-				test: function() {
-					return $("h1").length > 0;
-				}(),
-				count: function() {
-					return $("h1").length;
-				}() 
-			}
-		},
-		accessibility : {
-			img_alts : {
-				name: "Image Alt Tags",
-				test: methods.findElem("img", "alt"),
-				count: methods.findElem("img", "alt", 0)
-			}
-		}
-	}
-};
+		};
 
-/* WEB FOLDER EXISTS TO ADD FRONTEND CODE FOR A UI */
+/* INITIALIZE APP */
 app
+	/* WEB FOLDER EXISTS TO ADD FRONTEND CODE FOR A UI */
 	.get('/web*', function(req, res) {
 		thingToGet = req["originalUrl"];
 			res.sendFile(path.join(__dirname + thingToGet));
 	})
 
-/* RETURN PASSES ON PAGENAME THROUGH A JSON API */
+	/* RETURN PASSES ON PAGENAME THROUGH A JSON API ENDPOINT */
 	.get('/', function(req, res){
 		query = req.query.q ? req.query.q : "http://aaronbartholomew.com/";
 		output = {
@@ -91,7 +90,9 @@ app
 	})
 
 
-/* LISTEN ON PORT */
+	/* LISTEN ON PORT */
 	.listen(config.port);
+
+/*LOG START, SET EXPORTS IF NEEDED */
 console.log('Self QA Assistant Started on Port 8081');
 exports = module.exports = app;
