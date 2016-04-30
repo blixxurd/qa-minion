@@ -8,6 +8,7 @@
     "express"    : "latest",
     "request"    : "latest",
     "cheerio"    : "latest",
-    "gulp"       : "latest"
+    "gulp"       : "latest",
+    "gulp-sass"  : "latest"
   }
 }
