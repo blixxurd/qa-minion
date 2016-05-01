@@ -11,17 +11,29 @@
 
 <body>
 
-	<div ng-app="api-ui" class="wrapper">
+	<div ng-app="apiUi" class="wrapper">
 		<h1>Self QA Assistant</h1>
 		<p>Runs basic automated on-page markup QA passes for webpages. Enter a page below to run tests.</p>
-		<form>
-			<input type="text" placeholder="http://yourpage.com/">
-			<input type="submit" class="button">
-		</form>
+		<hr>
+		<div ng-controller="formCtrl">
+			<form ng-submit="methods.get()" ng-hide="test_data">
+				<input type="url" ng-model="url" placeholder="http://yourpage.com/">
+				<input type="submit" class="button" value="Scan Site">
+			</form>	
+			<div class="errors" ng-show="error_message">{{error_message}}</div>
+			<div class="results" ng-show="test_data">
+				<div class="results_header">
+					<h2>{{url}}</h2>
+					<a href="/web/" class="button">Run test on new URL</a>
+				</div>
+				<code>{{test_data}}</code>
+			</div>
+		</div>
 	</div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.2/js/foundation.js"></script>
+<script src="/web/js/main.js"></script>
 <script>
   $(document).ready(function(){
 
