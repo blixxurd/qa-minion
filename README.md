@@ -3,17 +3,19 @@ NodeJS tool using Express and Cheerio that runs through lists of test cases to a
 
 ##To Install
 `sudo npm install`
+
 `sudo npm install gulp`
 
 ##To Run
 `gulp`
 
-##Test Case Endpoints
-`http://localhost:8081/?q=http://yourdomain.com/pagetotest.html`
+##UI for Testing Webpages
+`http://localhost:8081/web/`
+
+##Test Case Endpoint (For developers)
+`http://localhost:8081/api/?q=http://yourdomain.com/pagetotest.html`
 
 ###To Do
-> Add Basic Web UI Interface
-
 > More Test Cases
 
 > Break Test Cases into seperate files

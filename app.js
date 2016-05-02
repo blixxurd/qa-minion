@@ -20,7 +20,7 @@ app
 	})
 
 	/* RETURN PASSES ON PAGENAME THROUGH A JSON API ENDPOINT */
-	.get('/', function(req, res){
+	.get('/api', function(req, res){
 		query = req.query.q ? req.query.q : "http://aaronbartholomew.com/";
 		output = {
 			results: [],

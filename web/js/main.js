@@ -19,7 +19,7 @@ apiUi.controller('formCtrl', function($scope,$http) {
 				$scope.error_message = "Not a properly formatted URL.";
 				return;
 			}
-			var req = $http.get("/?q="+$scope.url);
+			var req = $http.get("/api/?q="+$scope.url);
 			req.success(function(data, status, headers, config) {
 				$scope.test_data = data;
 				window.history.pushState("", "Test Results: "+$scope.url, "/web/"+$scope.url);
