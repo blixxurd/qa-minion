@@ -12,21 +12,42 @@
 <body>
 
 	<div ng-app="apiUi" class="wrapper">
-		<h1>Self QA Assistant</h1>
-		<p>Runs basic automated on-page markup QA passes for webpages. Enter a page below to run tests.</p>
-		<hr>
 		<div ng-controller="formCtrl">
+			<div class="head" ng-if="!test_data">
+				<h1>Self QA Assistant</h1>
+				<p>Runs basic automated on-page markup QA passes for webpages. Enter a page below to run tests.</p>
+			</div>
 			<form ng-submit="methods.get()" ng-hide="test_data">
 				<input type="url" ng-model="url" placeholder="http://yourpage.com/">
 				<input type="submit" class="button" value="Scan Site">
 			</form>	
 			<div class="errors" ng-show="error_message">{{error_message}}</div>
 			<div class="results" ng-show="test_data">
-				<div class="results_header">
-					<h2>{{url}}</h2>
-					<a href="/web/" class="button">Run test on new URL</a>
+				<div class="results-header head">
+					<h2>Test Results <span>{{url}}</span></h2>
 				</div>
-				<code>{{test_data}}</code>
+				<div ng-repeat="(test, data) in test_data" id="{{key}}">
+					<h4 class="results-title">{{test}} Test Cases</h4>
+					<table class="test-results">
+					  <thead>
+					    <tr>
+					      <th>Name</th>
+					      <th>Pass</th>
+					      <th>Additional Data</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr ng-repeat="(test_id, result) in data" class="test-{{result.test.toString()}}">
+					      <td class="name">{{result.name}}</td>
+					      <td class="result">{{result.test.toString()}}</td>
+					      <td class="ancillary">
+					      	<span>TestID: {{test_id}}</span>
+							<span ng-if="result.count">Count: {{result.count}}</span>
+					      </td>
+					    </tr>
+					  </tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>

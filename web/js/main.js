@@ -22,6 +22,7 @@ apiUi.controller('formCtrl', function($scope,$http) {
 			var req = $http.get("/?q="+$scope.url);
 			req.success(function(data, status, headers, config) {
 				$scope.test_data = data;
+				window.history.pushState("", "Test Results: "+$scope.url, "/web/"+$scope.url);
 			});
 			req.error(function(data, status, headers, config) {
 				$scope.error_message = "Something went wrong.";

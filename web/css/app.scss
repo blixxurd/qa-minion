@@ -1,8 +1,49 @@
 .wrapper {
 	text-align:center;
+	margin:0 auto;
+	.head {
+		background: #EEE;
+		border-bottom: #CCC;
+		padding: 10px;
+	}
 	form {
 		max-width: 600px;
 		width: 100%;
 		margin:30px auto;
+	}
+	.results-header {
+		margin-bottom: 30px;
+		padding:5px;
+		background:#EEE;
+		h2 {
+			font-size: 25px;
+			span {
+				display:block;
+				font-size: 20px;
+				font-weight:bold;
+			}
+		}
+	}
+	h4.results-title {
+		text-transform: capitalize;
+	}
+	.test-results {
+		margin:0 auto;
+		margin-top:15px;
+		margin-bottom: 30px;
+		.test-true {
+			background: darken(#dff0d8, 10%);
+		}
+		.test-false {
+			background: lighten(#d9534f, 10%);
+		}
+		td {
+			width: 250px;
+		}
+		.ancillary {
+			span {
+				display:block;
+			}
+		}
 	}
 }

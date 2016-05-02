@@ -1,6 +1,35 @@
 .wrapper {
-  text-align: center; }
+  text-align: center;
+  margin: 0 auto; }
+  .wrapper .head {
+    background: #EEE;
+    border-bottom: #CCC;
+    padding: 10px; }
   .wrapper form {
     max-width: 600px;
     width: 100%;
     margin: 30px auto; }
+  .wrapper .results-header {
+    margin-bottom: 30px;
+    padding: 5px;
+    background: #EEE; }
+    .wrapper .results-header h2 {
+      font-size: 25px; }
+      .wrapper .results-header h2 span {
+        display: block;
+        font-size: 20px;
+        font-weight: bold; }
+  .wrapper h4.results-title {
+    text-transform: capitalize; }
+  .wrapper .test-results {
+    margin: 0 auto;
+    margin-top: 15px;
+    margin-bottom: 30px; }
+    .wrapper .test-results .test-true {
+      background: #c1e2b3; }
+    .wrapper .test-results .test-false {
+      background: #e27c79; }
+    .wrapper .test-results td {
+      width: 250px; }
+    .wrapper .test-results .ancillary span {
+      display: block; }
